@@ -26,8 +26,9 @@ import EmployeeManager from "../components/dashboard/EmployeeManager";
 import EquipmentManager from "../components/dashboard/EquipmentManager";
 import BudgetManager from "../components/dashboard/BudgetManager";
 import axios from "axios";
+import { ProjectDashboardContext } from "@/lib/context/projectContext";
 
-interface Project {
+export interface Project {
   id: string;
   name: string;
   description: string;
@@ -38,6 +39,13 @@ interface Project {
   // endDate: string;
   status: "Active";
   progress: number;
+}
+
+export interface ProjectStatistics {
+  projectProgress: number;
+  budgetUsed: number;
+  activeTasks: number;
+  equipmentCount: number;
 }
 
 const Dashboard = () => {
@@ -55,6 +63,13 @@ const Dashboard = () => {
     startDate: "",
     status: "Active",
     progress: 0,
+  });
+
+  const [projectStatistics, setProjectStatistics] = useState<ProjectStatistics>({
+    projectProgress: 0,
+    budgetUsed: 0,
+    activeTasks: 0,
+    equipmentCount: 0,
   });
 
   // Mock project data - in real app this would come from API
@@ -148,6 +163,8 @@ const Dashboard = () => {
   }, []);
 
   return (
+    <ProjectDashboardContext.Provider value={projectStatistics}>
+      
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-amber-50">
       {/* Header */}
       <div className="bg-white shadow-lg border-b border-amber-200">
@@ -192,8 +209,8 @@ const Dashboard = () => {
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{project.progress}%</div>
-              <Progress value={project.progress} className="mt-2" />
+              <div className="text-2xl font-bold">{projectStatistics.projectProgress}%</div>
+              <Progress value={projectStatistics.projectProgress} className="mt-2" />
             </CardContent>
           </Card>
 
@@ -209,7 +226,7 @@ const Dashboard = () => {
               <p className="text-xs text-muted-foreground">
                 ${remainingBudget.toLocaleString()} remaining
               </p>
-              <Progress value={budgetPercentage} className="mt-2" />
+              <Progress value={projectStatistics.budgetUsed} className="mt-2" />
             </CardContent>
           </Card>
 
@@ -221,7 +238,7 @@ const Dashboard = () => {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{taskLenth}</div>
+              <div className="text-2xl font-bold">{projectStatistics.activeTasks}</div>
               <p className="text-xs text-muted-foreground">
                 8 completed this week
               </p>
@@ -234,7 +251,7 @@ const Dashboard = () => {
               <Wrench className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">18</div>
+              <div className="text-2xl font-bold">{projectStatistics.equipmentCount}</div>
               <p className="text-xs text-muted-foreground">
                 3 under maintenance
               </p>
@@ -361,6 +378,7 @@ const Dashboard = () => {
         </Tabs>
       </div>
     </div>
+    </ProjectDashboardContext.Provider>
   );
 };
 
