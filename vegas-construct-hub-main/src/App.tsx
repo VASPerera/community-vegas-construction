@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import ChangePassword from "./pages/ChangePassword";
 import NotFound from "./pages/NotFound";
 import { ProjectDashboardContext } from "./lib/context/projectContext";
+import { ProjectStatistics } from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +23,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/projects" element={<Projects />} />
-          <Route path="/dashboard/:projectId" element={<ProjectDashboardContext.Provider><Dashboard /></ProjectDashboardContext.Provider>} />
+          <Route path="/dashboard/:projectId" element={<Dashboard />} />
           <Route path="/changepassword/:id/:token" element={<ChangePassword />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
