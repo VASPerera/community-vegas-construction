@@ -9,6 +9,8 @@ import Projects from "./pages/Projects";
 import Dashboard from "./pages/Dashboard";
 import ChangePassword from "./pages/ChangePassword";
 import NotFound from "./pages/NotFound";
+import { ProjectDashboardContext } from "./lib/context/projectContext";
+import { ProjectStatistics } from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
